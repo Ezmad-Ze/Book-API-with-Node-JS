@@ -10,7 +10,7 @@ const bookSchema = new Schema(
     },
     image: {
       type: String,
-      default: "uploads/book_cover.png",
+      default: "uploads\\book_cover.png",
     },
     description: {
       type: String,

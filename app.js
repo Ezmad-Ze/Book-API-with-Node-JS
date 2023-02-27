@@ -1,6 +1,7 @@
 require("dotenv").config();
 require("express-async-errors");
 const express = require("express");
+
 const app = express();
 
 //jwt middleware
@@ -10,6 +11,8 @@ const verifyJWT = require("./middleware/verifyJWT");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
+app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static('./uploads'));
 //database
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");

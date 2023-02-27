@@ -22,7 +22,10 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     customError.msg = `No item found with id : ${err.value}`;
     customError.statusCode = 404;
   }
-
+  if (err.code == "LIMIT_FILE_SIZE") {
+    customError.msg = `File size should be less than 1MB`;
+    customError.statusCode = 500;
+  }
   return res.status(customError.statusCode).json({ msg: customError.msg });
 };
 
