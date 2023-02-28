@@ -8,12 +8,12 @@ const FILE_SIZE = 1024 * 1024;
 
 const createFile = async () => {
   try {
-    if (!fs.existsSync(path.join(__dirname, "..", "..", "uploads"))) {
-      await fsPromises.mkdir(path.join(__dirname, "..", "..", "uploads"));
+    if (!fs.existsSync(path.join(__dirname, "..", "uploads"))) {
+      await fsPromises.mkdir(path.join(__dirname, "..", "uploads"));
     }
     await fsPromises.copyFile(
-      path.join(__dirname, "..", "..", "book_cover.png"),
-      path.join(__dirname, "..", "..", "uploads", "book_cover.png")
+      path.join(__dirname, "..", "book_cover.png"),
+      path.join(__dirname, "..", "uploads", "book_cover.png")
     );
   } catch (err) {
     console.error(err);
@@ -22,7 +22,7 @@ const createFile = async () => {
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     createFile();
-    cb(null, path.join(__dirname, "..", "..", "uploads"));
+    cb(null, path.join(__dirname, "..", "uploads"));
   },
   filename: (req, file, cb) => {
     const filename =
