@@ -65,17 +65,31 @@ const createBook = async (req, res) => {
   res.status(StatusCodes.CREATED).json(result);
 };
 
+const deleteBook = async (req, res) => {
+  if (!req.params.id) throw new BadRequestError("ID is required");
+
+  const findBook = await Book.findOneAndRemove({
+    _id: req.params.id,
+    createdBy: req.id,
+  });
+  if (!findBook)
+    throw new BadRequestError(`No Book found with ID ${req.params.id}`);
+
+  res.status(StatusCodes.OK).send();
+};
+
 const getBook = async (req, res) => {
   if (!req.params.id) throw new BadRequestError("ID is required");
 
-  const foundBook = await Book.findOne({
+  const findBook = await Book.findOne({
     _id: req.params.id,
     createdBy: req.id,
   }).exec();
-  if (!foundBook)
+
+  if (!findBook)
     throw new BadRequestError(`No Book found with ID ${req.params.id}`);
 
-  res.status(StatusCodes.OK).json(foundBook);
+  res.status(StatusCodes.OK).json(findBook);
 };
 
 const testUpload = async (req, res) => {
@@ -89,6 +103,7 @@ const testUpload = async (req, res) => {
 module.exports = {
   getAllBooks,
   createBook,
+  deleteBook,
   getBook,
   testUpload,
 };
