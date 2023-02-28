@@ -18,7 +18,7 @@ const getAllBooks = async (req, res) => {
 
   //created by only the same user
   queryObject.createdBy = req.id;
-  
+
   let result = Book.find(queryObject);
   // sort
   if (sort) {
@@ -65,6 +65,19 @@ const createBook = async (req, res) => {
   res.status(StatusCodes.CREATED).json(result);
 };
 
+const getBook = async (req, res) => {
+  if (!req.params.id) throw new BadRequestError("ID is required");
+
+  const foundBook = await Book.findOne({
+    _id: req.params.id,
+    createdBy: req.id,
+  }).exec();
+  if (!foundBook)
+    throw new BadRequestError(`No Book found with ID ${req.params.id}`);
+
+  res.status(StatusCodes.OK).json(foundBook);
+};
+
 const testUpload = async (req, res) => {
   if (req.file == undefined) {
     return res.status(400).send({ message: "Select image to upload" });
@@ -76,5 +89,6 @@ const testUpload = async (req, res) => {
 module.exports = {
   getAllBooks,
   createBook,
+  getBook,
   testUpload,
 };
