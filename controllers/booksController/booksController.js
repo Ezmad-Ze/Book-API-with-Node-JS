@@ -3,7 +3,32 @@ const { StatusCodes } = require("http-status-codes");
 const Book = require("../../models/Book");
 
 const getAllBooks = async (req, res) => {
-  res.send("Helloe");
+  const { title, author, status, categories, sort } = req.query;
+  const bookStatus = ["TBR", "READING", "FINISHED"];
+  const queryObject = {};
+
+  if (title) queryObject.title = { $regex: title, $options: "i" };
+  if (author) queryObject.author = { $regex: author, $options: "i" };
+  if (categories)
+    queryObject.categories = { $regex: categories, $options: "i" };
+
+  if (bookStatus.includes(status?.toUpperCase())) {
+    queryObject.status = status?.toUpperCase();
+  }
+
+  //created by only the same user
+  queryObject.createdBy = req.id;
+  
+  let result = Book.find(queryObject);
+  // sort
+  if (sort) {
+    const sortList = sort.split(",").join(" ");
+    result = result.sort(sortList);
+  } else {
+    result = result.sort("createdAt");
+  }
+  const books = await result;
+  res.status(StatusCodes.OK).json({ nbHits: books.length, books });
 };
 
 const createBook = async (req, res) => {
