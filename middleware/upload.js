@@ -19,13 +19,14 @@ const createFile = async () => {
     console.error(err);
   }
 };
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     createFile();
     cb(null, path.join(__dirname, "..", "uploads"));
   },
   filename: (req, file, cb) => {
-    const filename =
+    let filename =
       file.fieldname + "-" + Date.now() + path.extname(file.originalname);
     cb(null, filename);
   },
@@ -50,4 +51,4 @@ const uploads = multer({
   },
 }).single("image");
 
-module.exports = uploads;
+module.exports = { uploads };
