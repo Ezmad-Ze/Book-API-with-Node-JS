@@ -51,4 +51,4 @@ const uploads = multer({
   },
 }).single("image");
 
-module.exports = { uploads };
+module.exports = { uploads, createFile };

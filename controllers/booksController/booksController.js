@@ -1,5 +1,6 @@
 const { BadRequestError, NotFoundError } = require("../../errors");
 const { StatusCodes } = require("http-status-codes");
+const { createFile } = require("../../middleware/upload");
 const Book = require("../../models/Book");
 const path = require("path");
 const fs = require("fs");
@@ -42,6 +43,9 @@ const getAllBooks = async (req, res) => {
 };
 
 const createBook = async (req, res) => {
+  //to create the uploads folder
+  createFile();
+
   let {
     isbn,
     title,
