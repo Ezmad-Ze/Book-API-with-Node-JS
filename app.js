@@ -20,6 +20,7 @@ app.use(cookieParser());
 
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("./uploads"));
+
 //database
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
