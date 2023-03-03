@@ -1,8 +1,15 @@
 require("dotenv").config();
 require("express-async-errors");
-const express = require("express");
 
+const express = require("express");
 const app = express();
+
+const cors = require("cors");
+
+//handle options credentials check - before CORS
+//and fetch cookies credentials requirment
+app.use(require("./middleware/credentials"));
+app.use(cors(corsOptions));
 
 //jwt middleware
 const verifyJWT = require("./middleware/verifyJWT");
@@ -12,7 +19,7 @@ const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static('./uploads'));
+app.use("/uploads", express.static("./uploads"));
 //database
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
