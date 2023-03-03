@@ -4,6 +4,8 @@ require("express-async-errors");
 const express = require("express");
 const app = express();
 
+const swaggerDocs = require("./config/swagger");
+
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 //handle options credentials check - before CORS
@@ -36,17 +38,20 @@ const PORT = process.env.PORT || 3500;
 
 //first page
 app.get("/", (req, res) => {
-  res.send("<h1>Testing</h1>");
+  res.send(
+    '<h1>Book Reading Tracking API</h1><a href="/docs">Documentation</a>'
+  );
 });
 
 //routes
+swaggerDocs(app, PORT);
+
 app.use("/api/v1/register", require("./routes/auth/register"));
 app.use("/api/v1/login", require("./routes/auth/login"));
 app.use("/api/v1/refresh", require("./routes/auth/refresh"));
 app.use("/api/v1/logout", require("./routes/auth/logout"));
 
-app.use(verifyJWT);
-app.use("/api/v1/book", require("./routes/books/book"));
+app.use("/api/v1/book", verifyJWT, require("./routes/books/book"));
 
 //Not found error
 app.use(require("./middleware/not-found"));

@@ -85,9 +85,6 @@ const updateBook = async (req, res) => {
   let { isbn, title, image, description, author, categories, status } =
     req.body;
 
-  //checking if title is not empty
-  if (!title) throw new BadRequestError("Title is Required");
-
   //checking if image has value or not
   if (req.file) {
     image = req.file.path;
@@ -151,7 +148,7 @@ const getBook = async (req, res) => {
 
   const findBook = await Book.findOne({
     _id: req.params.id,
-    createdBy: req.id,
+    // createdBy: req.id,
   }).exec();
 
   if (!findBook)
