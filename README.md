@@ -6,11 +6,11 @@
 
 <div align="center">
   <h3>
-    <a href="#" color="white">
+    <a href="https://sore-plum-haddock-tam.cyclic.app/" color="white">
       Docs
     </a>
     <span> | </span>
-    <a href="https://github.com/Ezmad-Ze/multi_step_form">
+    <a href="https://github.com/Ezmad-Ze/Book-API-with-Node-JS">
       Solution
     </a>
   </h3>
